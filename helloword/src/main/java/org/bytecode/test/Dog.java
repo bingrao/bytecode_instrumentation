@@ -1,0 +1,51 @@
+package org.bytecode.test;
+
+// Class Declaration
+
+public class Dog extends Animal {
+
+    // Constructor Declaration of Class
+    public Dog(String name, String breed,
+               int age, String color)
+    {
+        this.name = name;
+        this.breed = breed;
+        this.age = age;
+        this.color = color;
+    }
+
+    // method 1
+    public String getName()
+    {
+        return name;
+    }
+
+    // method 2
+    public String getBreed()
+    {
+        return breed;
+    }
+
+    // method 3
+    public int getAge()
+    {
+        return age;
+    }
+
+    // method 4
+    public String getColor()
+    {
+        return color;
+    }
+
+    @Override
+    public String toString()
+    {
+        return("Hi my name is "+ this.getName()+
+                ".\nMy breed,age and color are " +
+                this.getBreed()+"," + this.getAge()+
+                ","+ this.getColor());
+    }
+}
+
+
