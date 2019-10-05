@@ -31,7 +31,7 @@ object Agent {
     }
 
 
-    def agent_asm_classprinter(bytes:Array[Byte]):Array[Byte] = {
+    def agent_asm_HelloClassPrinter(bytes:Array[Byte]):Array[Byte] = {
       val reader = new ClassReader(bytes)
       val writer = new ClassWriter(reader, 0)
       val visitor = new HelloClassPrinter(writer)
@@ -40,7 +40,7 @@ object Agent {
     }
 
 
-    def agent_asm_aoc(bytes:Array[Byte]):Array[Byte] = {
+    def agent_asm_HelloClassAdapter(bytes:Array[Byte]):Array[Byte] = {
       //https://stackoverflow.com/questions/23416536/main-method-in-scala
       if (debug) {
         val oldFile = new File("old.class")
@@ -53,6 +53,7 @@ object Agent {
       val visitor = new HelloClassAdapter(writer)
       reader.accept(visitor, ClassReader.SKIP_DEBUG)
       val data = writer.toByteArray
+
       if (debug) {
         val newFile = new File("new.class")
         val newfout = new FileOutputStream(newFile)
@@ -71,16 +72,15 @@ object Agent {
                              classfileBuffer: Array[Byte]): Array[Byte] = {
 
         if (debug)  println("The class name is: " + className)
-
         if (instr_asm_class.equals(className)) {
           try {
-            return agent_asm_aoc(classfileBuffer)
+            agent_asm_HelloClassAdapter(classfileBuffer)
           } catch {
             case ex:Exception =>
               ex.printStackTrace()
+              null
           }
-        }
-        return null
+        } else null
       }
     })
   }
