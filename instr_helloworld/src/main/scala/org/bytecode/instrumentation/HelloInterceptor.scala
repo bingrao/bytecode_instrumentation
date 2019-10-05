@@ -2,9 +2,9 @@ package org.bytecode.instrumentation
 
 object HelloInterceptor {
   def beforeInvoke() = {
-    println("Before: " + System.currentTimeMillis())
+    logging("Before: " + System.currentTimeMillis(),true)
   }
   def afterInvoke() = {
-    println("After: " + System.currentTimeMillis())
+    logging("After: " + System.currentTimeMillis(),true)
   }
 }

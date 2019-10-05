@@ -10,7 +10,7 @@ class HelloClassAdapter(cv:ClassVisitor) extends ClassVisitor(Opcodes.ASM5, cv) 
                      signature: _root_.java.lang.String,
                      superName: _root_.java.lang.String,
                      interfaces: Array[_root_.java.lang.String]): Unit = {
-    if (debug) println(s"The class is ${name}, its superName is ${superName}")
+    logging(s"The class is ${name}, its superName is ${superName}")
     super.visit(version, access, name, signature, superName, interfaces)
   }
   override def visitMethod(access: Int,

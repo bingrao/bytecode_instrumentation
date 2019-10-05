@@ -9,7 +9,7 @@ class HelloClassPrinter(writer:ClassWriter) extends ClassVisitor(Opcodes.ASM5, w
                      signature: _root_.java.lang.String,
                      superName: _root_.java.lang.String,
                      interfaces: Array[_root_.java.lang.String]): Unit = {
-    println(name + " extends " + superName + " {")
+    logging(name + " extends " + superName + " {")
     super.visit(version, access, name, signature, superName, interfaces)
   }
   override def visitMethod(access: Int,
@@ -17,12 +17,12 @@ class HelloClassPrinter(writer:ClassWriter) extends ClassVisitor(Opcodes.ASM5, w
                            desc: _root_.java.lang.String,
                            signature: _root_.java.lang.String,
                            exceptions: Array[_root_.java.lang.String]): _root_.scala.tools.asm.MethodVisitor = {
-    println(" " + name + desc)
+    logging(" " + name + desc)
     super.visitMethod(access, name, desc, signature, exceptions)
   }
 
   override def visitEnd(): Unit = {
-    println("}")
+    logging("}")
     super.visitEnd()
   }
 }

@@ -25,7 +25,7 @@ object Agent {
         cc.detach()
         return byteCode
       }else{
-        println("There is no found class object")
+        logging("There is no found class object")
         return null
       }
     }
@@ -71,7 +71,7 @@ object Agent {
                              protectionDomain: ProtectionDomain,
                              classfileBuffer: Array[Byte]): Array[Byte] = {
 
-        if (debug)  println("The class name is: " + className)
+        logging("The class name is: " + className)
         if (instr_asm_class.equals(className)) {
           try {
             agent_asm_HelloClassAdapter(classfileBuffer)
