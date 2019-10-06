@@ -9,5 +9,8 @@
         <module name="instr_helloworld" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="instr_helloworld" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
