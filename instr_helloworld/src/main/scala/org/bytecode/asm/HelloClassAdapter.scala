@@ -1,15 +1,19 @@
-package org.bytecode.instrumentation
+package org.bytecode.asm
 
-import scala.tools.asm.{ClassVisitor, ClassWriter, Opcodes}
+import org.bytecode.util.Common
 
-class HelloClassPrinter(writer:ClassWriter) extends ClassVisitor(Opcodes.ASM5, writer) {
+import scala.tools.asm._
+
+class HelloClassAdapter(cv:ClassVisitor) extends ClassVisitor(Opcodes.ASM5, cv) with Common{
+
+
   override def visit(version: Int,
                      access: Int,
                      name: _root_.java.lang.String,
                      signature: _root_.java.lang.String,
                      superName: _root_.java.lang.String,
                      interfaces: Array[_root_.java.lang.String]): Unit = {
-    logging(name + " extends " + superName + " {")
+    logger.debug(s"The class is ${name}, its superName is ${superName}")
     super.visit(version, access, name, signature, superName, interfaces)
   }
   override def visitMethod(access: Int,
@@ -17,12 +21,8 @@ class HelloClassPrinter(writer:ClassWriter) extends ClassVisitor(Opcodes.ASM5, w
                            desc: _root_.java.lang.String,
                            signature: _root_.java.lang.String,
                            exceptions: Array[_root_.java.lang.String]): _root_.scala.tools.asm.MethodVisitor = {
-    logging(" " + name + desc)
-    super.visitMethod(access, name, desc, signature, exceptions)
-  }
 
-  override def visitEnd(): Unit = {
-    logging("}")
-    super.visitEnd()
+    val mv = cv.visitMethod(access, name, desc, signature, exceptions)
+    if ((mv != null) && (name.equals("printHello"))) new HelloMethod(this.api, mv) else mv
   }
 }

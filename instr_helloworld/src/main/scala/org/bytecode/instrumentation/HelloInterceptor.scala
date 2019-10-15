@@ -1,10 +1,12 @@
 package org.bytecode.instrumentation
 
-object HelloInterceptor {
+import org.bytecode.util.Common
+
+object HelloInterceptor extends Common  {
   def beforeInvoke() = {
-    logging("Before: " + System.currentTimeMillis(),true)
+    logger.info("Before: " + System.currentTimeMillis())
   }
   def afterInvoke() = {
-    logging("After: " + System.currentTimeMillis(),true)
+    logger.info("After: " + System.currentTimeMillis())
   }
 }

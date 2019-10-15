@@ -14,8 +14,8 @@
          <scala.version>2.11.12</scala.version>
          <scala.binary.version>2.11</scala.binary.version>
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-         <project.main.class>org.bytecode.instrumentation.Agent</project.main.class>
-         <project.premain.class>org.bytecode.instrumentation.Agent</project.premain.class>
+         <project.main.class>org.bytecode.Agent</project.main.class>
+         <project.premain.class>org.bytecode.Agent</project.premain.class>
     </properties>
     <repositories>
       <repository>
@@ -103,6 +103,15 @@
             <version>7.0</version>
         </dependency>
 
+
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+
     </dependencies>
 
   <build>
@@ -126,6 +135,7 @@
                         <mainClass>${project.main.class}</mainClass>
                     </manifest>
                     <manifestEntries>
+                        <Agent-Class>${project.premain.class}</Agent-Class>
                         <Premain-Class>${project.premain.class}</Premain-Class>
                     </manifestEntries>
                 </archive>

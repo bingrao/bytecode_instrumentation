@@ -1,8 +1,10 @@
-package org.bytecode.instrumentation
+package org.bytecode.asm
+
+import org.bytecode.util.Common
 
 import scala.tools.asm.{MethodVisitor, Opcodes}
 
-class HelloMethod(api:Int, cv: MethodVisitor)  extends MethodVisitor(api,cv){
+class HelloMethod(api:Int, cv: MethodVisitor)  extends MethodVisitor(api,cv) with Common{
 
   override def visitCode(): Unit = {
     super.visitCode()
