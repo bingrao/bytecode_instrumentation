@@ -8,14 +8,14 @@ import scala.tools.asm.{ClassReader, ClassWriter}
 
 class AsmTransformer extends ClassFileTransformer with Common {
 
-  def agent_asm_HelloClassPrinter(className: String, bytes:Array[Byte]):Array[Byte] = {
+  def HelloClassPrinter(className: String, bytes:Array[Byte]):Array[Byte] = {
     val reader = new ClassReader(bytes)
     val writer = new ClassWriter(reader, 0)
     val visitor = new HelloClassPrinter(writer)
     reader.accept(visitor, 0)
     return writer.toByteArray()
   }
-  def agent_asm_HelloClassAdapter(className: String, bytes:Array[Byte]):Array[Byte] = {
+  def helloClassInsert(className: String, bytes:Array[Byte]):Array[Byte] = {
     if (instr_asm_class.equals(className)) {
       //https://stackoverflow.com/questions/23416536/main-method-in-scala
 
@@ -53,7 +53,7 @@ class AsmTransformer extends ClassFileTransformer with Common {
         return null
       }
       logger.debug("Transforming class using ASM tool")
-      return agent_asm_HelloClassAdapter(className, classfileBuffer)
+      return helloClassInsert(className, classfileBuffer)
     } catch {
       case ex: Throwable =>
         logger.warn("Failed to transform class " + className)

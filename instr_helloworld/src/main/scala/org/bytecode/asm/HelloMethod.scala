@@ -9,7 +9,6 @@ class HelloMethod(api:Int, cv: MethodVisitor)  extends MethodVisitor(api,cv) wit
   override def visitCode(): Unit = {
     super.visitCode()
     this.visitMethodInsn(Opcodes.INVOKESTATIC, "org/bytecode/instrumentation/HelloInterceptor", "beforeInvoke", "()V",false)
-
   }
 
   override def visitInsn(opcode: Int): Unit = {

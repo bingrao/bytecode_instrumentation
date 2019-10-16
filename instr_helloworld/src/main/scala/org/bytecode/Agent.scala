@@ -11,7 +11,7 @@ import org.bytecode.util.Common
 
 object Agent extends Common {
   def premain(args: String, inst: Instrumentation): Unit = {
-//    inst.addTransformer(new AsmTransformer)
-    inst.addTransformer(new JavassistTransformer)
+    inst.addTransformer(new AsmTransformer)
+//    inst.addTransformer(new JavassistTransformer)
   }
 }
