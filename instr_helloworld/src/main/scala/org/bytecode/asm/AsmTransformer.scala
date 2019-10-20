@@ -1,5 +1,5 @@
 package org.bytecode.asm
-import org.bytecode.{debug,instr_asm_class}
+import org.bytecode.instr_class
 import org.bytecode.util.Common
 import java.io.{File, FileOutputStream}
 import java.lang.instrument.{ClassFileTransformer, Instrumentation}
@@ -16,7 +16,7 @@ class AsmTransformer extends ClassFileTransformer with Common {
     return writer.toByteArray()
   }
   def helloClassInsert(className: String, bytes:Array[Byte]):Array[Byte] = {
-    if (instr_asm_class.equals(className)) {
+    if (instr_class.equals(className)) {
       //https://stackoverflow.com/questions/23416536/main-method-in-scala
 
       if (logger.isDebugEnabled) {
@@ -49,7 +49,7 @@ class AsmTransformer extends ClassFileTransformer with Common {
                          classfileBuffer: Array[Byte]): Array[Byte] = {
     try {
       if (className == null || className.isEmpty) {
-        logger.info("Hit null or empty class name")
+        logger.info(s"Hit null or empty class name ${className}")
         return null
       }
       logger.debug("Transforming class using ASM tool")

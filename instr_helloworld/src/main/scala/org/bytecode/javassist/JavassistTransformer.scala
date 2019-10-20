@@ -8,12 +8,15 @@ import org.bytecode._
 
 class JavassistTransformer extends ClassFileTransformer with util.Common {
 
-  def transformerWithExistingClass(loader: ClassLoader,
+  private def transformerWithExistingClass(loader: ClassLoader,
                                    className: String,
                                    classfileBuffer: Array[Byte]):Array[Byte] = {
-    if (instr_asm_class.equals(className)) {
+
+    if (instr_class.equals(className)) {
+
+      val javassist_class = instr_class.replaceAll("/", ".")
       val cp = ClassPool.getDefault()
-      val cc = cp.get(instr_javassist_class)
+      val cc = cp.get(javassist_class)
       if(cc != null) {
         val m = cc.getDeclaredMethod(instr_method)
         m.addLocalVariable("elapsedTime", CtClass.longType)
@@ -32,8 +35,10 @@ class JavassistTransformer extends ClassFileTransformer with util.Common {
       classfileBuffer
     }
   }
-  def transformerWithNewClass(loader: ClassLoader, className: String, classfileBuffer: Array[Byte]):Array[Byte] =  {
-    if (instr_asm_class.equals(className)) {
+  private def transformerWithNewClass(loader: ClassLoader,
+                                      className: String,
+                                      classfileBuffer: Array[Byte]):Array[Byte] =  {
+    if (instr_class.equals(className)) {
       val classPool = new ClassPool()
       classPool.appendClassPath(new LoaderClassPath(loader))
       val byteArrayInputStream = new ByteArrayInputStream(classfileBuffer)

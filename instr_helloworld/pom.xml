@@ -11,11 +11,12 @@
   	<packaging>jar</packaging>
 
      <properties>
-         <scala.version>2.11.12</scala.version>
-         <scala.binary.version>2.11</scala.binary.version>
+         <scala.version>2.12.10</scala.version>
+         <scala.binary.version>2.12</scala.binary.version>
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
          <project.main.class>org.bytecode.Agent</project.main.class>
          <project.premain.class>org.bytecode.Agent</project.premain.class>
+         <project.agentmain.class>org.bytecode.Agent</project.agentmain.class>
     </properties>
     <repositories>
       <repository>
@@ -57,13 +58,8 @@
 		    <version>${scala.version}</version>
 		    <scope>compile</scope>
 		</dependency>
-        <!-- https://mvnrepository.com/artifact/org.specs2/specs2_* -->
-        <dependency>
-            <groupId>org.specs2</groupId>
-      		<artifactId>specs2_${scala.binary.version}</artifactId>
-      		<version>3.3.1</version>
-            <scope>test</scope>
-        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
         	<groupId>junit</groupId>
@@ -75,9 +71,8 @@
         <dependency>
 			<groupId>org.scalatest</groupId>
 			<artifactId>scalatest_${scala.binary.version}</artifactId>
-			<version>3.0.0-M12</version>
+			<version>3.2.0-M1</version>
 		</dependency>
-
 
 
         <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
@@ -124,6 +119,7 @@
     <plugins>
         <plugin>
         	<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.5.1</version>
             <configuration>
@@ -134,15 +130,18 @@
 
         <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>2.5</version>
+            <version>2.6</version>
             <configuration>
                 <archive>
                     <manifest>
                         <mainClass>${project.main.class}</mainClass>
                     </manifest>
                     <manifestEntries>
-                        <Agent-Class>${project.premain.class}</Agent-Class>
+                        <Agent-Class>${project.agentmain.class}</Agent-Class>
                         <Premain-Class>${project.premain.class}</Premain-Class>
+                        <Can-Redefine-Classes>false</Can-Redefine-Classes>
+                        <Can-Retransform-Classes>false</Can-Retransform-Classes>
+                        <Can-Set-Native-Method-Prefix>false</Can-Set-Native-Method-Prefix>
                     </manifestEntries>
                 </archive>
                 <descriptorRefs>
