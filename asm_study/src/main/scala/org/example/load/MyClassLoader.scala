@@ -8,7 +8,7 @@ object MyClassLoader extends ClassLoader with Common{
 
   override def findClass(name: String): Class[_] = {
     if(name.endsWith("Comparable")){
-      val bytes = org.example.gen.GenClass.gen_class
+      val bytes = org.example.gen.GenClassAdapter.gen_transform_from_writer
       defineClass(name, bytes, 0, bytes.length)
     }
     super.findClass(name)
@@ -18,7 +18,7 @@ object MyClassLoader extends ClassLoader with Common{
     super.defineClass(name, bytes, 0, bytes.length)
   }
   def main(args: Array[String]): Unit = {
-    val bytes = org.example.gen.GenClass.gen_class
+    val bytes = org.example.gen.GenClassAdapter.gen_transform_from_writer
 
     if (logger.isDebugEnabled) {
       val newFile = new File("./output/load/Comparable.class")

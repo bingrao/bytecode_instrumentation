@@ -5,8 +5,6 @@ import org.example.utils.Common
 import org.objectweb.asm.{ClassReader, ClassWriter}
 
 object PrinterDriver extends Common{
-
-
   def classPrint(bytes:Any):Array[Byte] = {
 
     val reader = bytes match {
@@ -34,10 +32,9 @@ object PrinterDriver extends Common{
     }
     val writer = new ClassWriter(reader, 0)
 
-    val visitor = new ClassPrinter(writer)
+    val visitor = new ClassPrinter(writer, false)
 
     reader.accept(visitor, 0)
-
 
     val data = writer.toByteArray
     if (logger.isDebugEnabled) {

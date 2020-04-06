@@ -1,9 +1,9 @@
 package org.example.printer
 
-import org.example.utils.Common
-import org.objectweb.asm.{ClassVisitor, ClassWriter, Opcodes}
+import org.example.GenericVisitor
+import org.objectweb.asm.{ClassVisitor, Opcodes}
 
-class ClassPrinter(writer:ClassWriter) extends ClassVisitor(Opcodes.ASM5, writer) with Common {
+class ClassPrinter(cv:ClassVisitor, trace:Boolean) extends GenericVisitor(cv, trace) {
   override def visit(version: Int,
                      access: Int,
                      name: _root_.java.lang.String,
@@ -11,7 +11,7 @@ class ClassPrinter(writer:ClassWriter) extends ClassVisitor(Opcodes.ASM5, writer
                      superName: _root_.java.lang.String,
                      interfaces: Array[_root_.java.lang.String]): Unit = {
     logger.info(s"${name} extends ${superName} {")
-    super.visit(version, access, name, signature, superName, interfaces)
+    getCV.visit(version, access, name, signature, superName, interfaces)
   }
 
   override def visitField(access: Int,
@@ -20,7 +20,7 @@ class ClassPrinter(writer:ClassWriter) extends ClassVisitor(Opcodes.ASM5, writer
                           signature: _root_.java.lang.String, value: Any): _root_.org.objectweb.asm.FieldVisitor = {
 
     logger.info("\t" + descriptor + " " + name)
-    super.visitField(access, name, descriptor, signature, value)
+    getCV.visitField(access, name, descriptor, signature, value)
   }
 
   override def visitMethod(access: Int,
@@ -30,11 +30,11 @@ class ClassPrinter(writer:ClassWriter) extends ClassVisitor(Opcodes.ASM5, writer
                            exceptions: Array[_root_.java.lang.String]): _root_.org.objectweb.asm.MethodVisitor = {
 
     logger.info("\t" + name + descriptor)
-    super.visitMethod(access, name, descriptor, signature, exceptions)
+    getCV.visitMethod(access, name, descriptor, signature, exceptions)
   }
 
   override def visitEnd(): Unit = {
     logger.info("}")
-    super.visitEnd()
+    getCV.visitEnd()
   }
 }
