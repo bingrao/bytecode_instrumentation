@@ -1,7 +1,9 @@
 package org.example
 
+import java.io.{File, FileOutputStream}
 import java.lang.instrument.Instrumentation
 
+import org.example.gen.GenClassAdapter
 import org.example.transfrom.ChangeVersionAdapter
 import org.objectweb.asm.ClassVisitor
 
@@ -39,8 +41,26 @@ object Agent extends utils.Common {
    * @param inst An object to access the JVM instrumentation mechanism.
    */
   def premain(args: String, inst: Instrumentation): Unit = {
-    inst.addTransformer(new GenericTransformer({
+    val transformer = new GenericTransformer({
       case writer: ClassVisitor => new ChangeVersionAdapter(writer, false)
-    }))
+    })
+    inst.addTransformer(transformer)
   }
+
+  def main(args: Array[String]): Unit = {
+
+    val transformer = new GenericTransformer({
+      case writer: ClassVisitor => new GenClassAdapter(writer, true)
+    })
+
+    val data = transformer.transform()
+    if (logger.isDebugEnabled) {
+      val newFile = new File("./output/AgentMain.class")
+      val newfout = new FileOutputStream(newFile)
+      newfout.write(data)
+      newfout.close()
+    }
+  }
+
+
 }

@@ -64,4 +64,14 @@ class GenericTransformer(newVisitor:ClassVisitor => GenericVisitor) extends Clas
         return classfileBuffer
     }
   }
+
+  def transform(classfileBuffer:String = "java.lang.Runnable"):Array[Byte] = {
+    val reader = new ClassReader(classfileBuffer)
+    val writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    // Create a new visitor bonding with existing writer
+    val visitor = newVisitor(writer)
+    reader.accept(visitor, ClassReader.SKIP_DEBUG)
+    writer.toByteArray
+  }
+
 }
